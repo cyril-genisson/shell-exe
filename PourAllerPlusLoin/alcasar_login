@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# Author: Cyril GENISSON
+# Created: 10/10/2023
+# Updated: 10/10/2023
+#
+# Nom du script: alcasar_login
+# Description: Crée une nouvelle connexion sur le portail captif alcasar.laplateforme.io
+#
+set -x
+
+EMAIL=$1
+PASSWD=$2
+
+if [ -z $EMAIL ] && [ -z $PASSWD ] ; then
+    echo "$0 EMAIL PASSWORD"
+    exit 1
+fi
+
+URI="https://alcasar.laplateforme.io/intercept.php"
+CHALLENGE=$(curl -b cookie -c cookie -L -I https://alcasar.laplateforme.io:3991/prelogin | grep ^Location | cut -d'&' -f4)
+DATA="$CHALLENGE&userurl=http://neverssl.com/&username=$EMAIL&password=$PASSWD&button=Authentification"
+
+curl -L --post302 -X POST --url $URI --header "Content-Type: application/x-www-form-urlencoded" -d $DATA
+# -L --post302
+exit 0

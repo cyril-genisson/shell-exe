@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Author: Cyril GENISSON
+# Created: 11/10/2023
+# Updated: 11/10/2023
+#
+# Nom du script: UserDel
+# Description: Supprime les comptes utilisateurs crées durant les tests. 
+#
+
+for ENTRY in $(cat $1)
+do
+    userdel -fr $ENTRY
+done
