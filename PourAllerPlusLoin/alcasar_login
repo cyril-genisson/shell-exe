@@ -17,10 +17,18 @@ if [ -z $EMAIL ] && [ -z $PASSWD ] ; then
     exit 1
 fi
 
-URI="https://alcasar.laplateforme.io/intercept.php"
-CHALLENGE=$(curl -b cookie -c cookie -L -I https://alcasar.laplateforme.io:3991/prelogin | grep ^Location | cut -d'&' -f4)
-DATA="$CHALLENGE&userurl=http://neverssl.com/&username=$EMAIL&password=$PASSWD&button=Authentification"
+user=$(echo $EMAIL | jq -Rr @uri)
+password=$(echo $PASSWD | jq -Rr @uri)
+url=$(echo http://neverssl.com/ | jq -Rr @uri)
 
-curl -L --post302 -X POST --url $URI --header "Content-Type: application/x-www-form-urlencoded" -d $DATA
+
+
+URI="https://alcasar.laplateforme.io/intercept.php"
+CHALLENGE=$(curl -I https://alcasar.laplateforme.io:3991/prelogin | grep ^Location | cut -d'&' -f4)
+DATA="$CHALLENGE&userurl=$url&username=$user&password=$PASSWD&button=Authentification"
+LENGTH=$(echo -n $DATA | wc -c)
+#curl -L --post302 -X POST --url $URI  --header "Content-Type: multipart/form-data" --header "Content-Length: length=$LENGTH" -d "$DATA" --location $URI
+curl  --request POST --url $URI  --header "Content-Type: multipart/form-data" --form username=$EMAIL --form password=$PASSWD --form $CHALLENGE --form button=Authentication --form userurl=http://detectportal.firefox.com/canonical.html --location $URI
 # -L --post302
+#curl -L --post302 -d $DATA $URI
 exit 0
