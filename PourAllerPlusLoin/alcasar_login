@@ -2,7 +2,7 @@
 #
 # Author: Cyril GENISSON
 # Created: 10/10/2023
-# Updated: 10/10/2023
+# Updated: 13/10/2023
 #
 # Nom du script: alcasar_login
 # Description: Crée une nouvelle connexion sur le portail captif alcasar.laplateforme.io
@@ -17,18 +17,32 @@ if [ -z $EMAIL ] && [ -z $PASSWD ] ; then
     exit 1
 fi
 
-user=$(echo $EMAIL | jq -Rr @uri)
-password=$(echo $PASSWD | jq -Rr @uri)
-url=$(echo http://neverssl.com/ | jq -Rr @uri)
-
-
-
 URI="https://alcasar.laplateforme.io/intercept.php"
 CHALLENGE=$(curl -I https://alcasar.laplateforme.io:3991/prelogin | grep ^Location | cut -d'&' -f4)
-DATA="$CHALLENGE&userurl=$url&username=$user&password=$PASSWD&button=Authentification"
-LENGTH=$(echo -n $DATA | wc -c)
-#curl -L --post302 -X POST --url $URI  --header "Content-Type: multipart/form-data" --header "Content-Length: length=$LENGTH" -d "$DATA" --location $URI
-curl  --request POST --url $URI  --header "Content-Type: multipart/form-data" --form username=$EMAIL --form password=$PASSWD --form $CHALLENGE --form button=Authentication --form userurl=http://detectportal.firefox.com/canonical.html --location $URI
-# -L --post302
-#curl -L --post302 -d $DATA $URI
+CHAL=$(echo -n $CHALLENGE | cut -d '=' -f2)
+# Données sous format brut
+#DATAS="$CHALLENGE&username=$EMAIL&password=$PASSWD&button=Authentification"
+# Données sous format JSON
+#DATA={\"challenge\":\"$CHAL\",\"username\":\"$EMAIL\",\"password\":\"$PASSWD\",\"button\":\"Authentification\"}
+#LENGTH=$(echo -n $DATA | wc -c)
+
+#curl -XL POST \
+#    --url $URI \
+#    --location $URI \
+#    --header "Content-Type: application/json" \
+#    --header "Content-Length: length=$LENGTH" \
+#    -d $DATA
+
+######################################################
+# Une Bonne version de la requête à ne pas toucher
+# ###################################################
+curl  --request POST \
+--url $URI  \
+--location $URI \
+--header "Content-Type: multipart/form-data" \
+--form username=$EMAIL \
+--form password=$PASSWD \
+--form $CHALLENGE \
+--form button=Authentication
+
 exit 0
