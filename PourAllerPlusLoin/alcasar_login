@@ -7,7 +7,7 @@
 # Nom du script: alcasar_login
 # Description: Crée une nouvelle connexion sur le portail captif alcasar.laplateforme.io
 #
-set -x
+#set -x
 
 EMAIL=$1
 PASSWD=$2
@@ -43,6 +43,8 @@ curl  --request POST \
 --form username=$EMAIL \
 --form password=$PASSWD \
 --form $CHALLENGE \
---form button=Authentication
+--form button=Authentication > /dev/null
+
+echo "Connexion établie"
 
 exit 0
