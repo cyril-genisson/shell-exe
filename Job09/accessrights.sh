@@ -9,12 +9,15 @@
 # L'auteur assume que les nom utilisateurs FirstName LasteName sont de la forme: flastname
 # Il n'est pas très heureux d'avoir des mots de passes en clair dans un fichier cvs. Sans
 # doute serait-il mieux d'en générer un de manière aléatoire et de l'envoyer par mail en
-# demandant de la changer à la première connexion.
+# demandant de le changer à la première connexion.
 #
 # D'autre part, j'assume que si un utilisateur change de Rôle ou bien de mot de passe dans le fichier
 # CSV cela ne sera pas modifié. En effet, un mot de passe dans un CSV ne doit au mieux qu'à servir pour
 # envoyer un mail à l'utilisateur pour une nouvelle connexion. D'autre part un changement de Rôle (User / Admin)
 # ne devrait se vérifier que sur un nouveau script. Donc ce script ne considère que les ajouts de nouveaux utilisateurs!
+# 
+# Enfin, j'assume le fait de ne pas utiliser les Id fournis par le fichier et je laisse le système les attribuer.
+# En effet rien ne dit que l'Id n'est pas attribué à un autre utilisateur avant de lancer le script.
 #
 # Ce qui est clair c'est qu'il est très difficile d'adapter un script un système Linux à
 # l'autre. Sous Red Hat on a des options et des comportements très différents que ceux 
