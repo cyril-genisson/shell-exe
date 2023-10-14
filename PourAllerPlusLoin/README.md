@@ -1,4 +1,4 @@
-# Les éléments de recherche
+# Les éléments de recherche et résultats
 Analyse des en-tête sur le portail de connexion
 
 ## Détermination de l'url à contacter
@@ -44,12 +44,26 @@ en url. Pour cela on utilise l'option --data-urlencode de cURL pour qu'il fasse 
 notre place. S'il n'en avait disposé, on aurait écrit un petit script permettant de convertir chaque
 caractère en valeur hexadécimale de la table ASCII avec le % qui va bien devant.
 
-Sans le authtoken le serveur ne comprend pas la réponse que je lui envoie ou alors je ne sais pas
-formuler la réponse comme il l'attend.
+--Sans le authtoken le serveur ne comprend pas la réponse que je lui envoie ou alors je ne sais pas
+formuler la réponse comme il l'attend.--
 
 **J'espère que celui qui a eu la bonne idée de faire ce Job Bonus se rend bien compte que si je valide
 ce projet et si j'installe un petit module Arduino autonome et bien caché je vais pouvoir être logué
 sur le système durant 35h/semaine en ne faisant pas mon quota horaire hebdomadaire... Le SESAME!!!**
 
 ** JE PLAISANTE EVIDEMENT!!! **
+
+## Après de longues recherches la délivrance
+Quoi qu'il puisse arriver, une chose est sûr, il ne faut jamais désespérer... Je dois bien l'avouer sans le concours
+salvateur de certains formateurs ce projets n'aurait pas pu aboutir dans les temps. Je les en remercie grandement ici.
+En effet, le plus difficile n'a pas été de déterminer les conditions pour finir le Job mes plutôt de détermerniner
+de quelle façon la requête PUT devait être formulée. Même après avoir réussi le Job je reste néanmoins plus que dubitatif
+sur le format exact qu'attend le serveur pour l'identification. La requête du navigateur nous faisait penser qu'il fallait
+les encoder les données en format url. Le serveur nous a refusé systématiquement ce format (erreur 400). Idem pour des
+données formatées au format JSON. Seul des données aux format multipart/form-data ont pu être interprétées correctement
+pour valider l'autorisation en nous retournant néanmoins une erreur 411 car nous ne pouvons pas avec ce format
+mettre en header la taille des données transmises dans le corps du message.
+
+
+
 
